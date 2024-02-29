@@ -1,5 +1,10 @@
 export const getCourseDuration = (duration) => {
-  // write your solution here
+  const hours = Math.floor(duration / 60);
+  const minutes = duration % 60;
 
-  return duration;
+  const padFront = (num) => `${num < 10 ? "0" : ""}${num}`;
+
+  return `${padFront(hours)}:${padFront(minutes)} hour${
+    hours === 1 ? "" : "s"
+  }`;
 };

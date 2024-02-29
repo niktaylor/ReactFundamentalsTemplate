@@ -2,6 +2,9 @@ import React from "react";
 
 import styles from "./styles.module.css";
 
+import { Logo } from "./components";
+import { Button } from "../../common";
+
 // Module 1:
 // * add Logo and Button components
 // * add Header component to the App component
@@ -33,13 +36,13 @@ import styles from "./styles.module.css";
 
 export const Header = () => {
   // write your code here
-
+  const logout = () => {};
   return (
     <div className={styles.headerContainer}>
-      // use Logo component
+      <Logo></Logo>
       <div className={styles.userContainer}>
         <p className={styles.userName}>Harry Potter</p>
-        // reuse Button component for 'Login / Logout' button
+        <Button buttonText={"Login"} handleClick={logout}></Button>
       </div>
     </div>
   );

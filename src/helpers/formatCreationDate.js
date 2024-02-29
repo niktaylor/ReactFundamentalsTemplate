@@ -1,5 +1,5 @@
 export const formatCreationDate = (date) => {
-  // write your solution here
-
-  return date;
+  const tokens = date?.split("/");
+  const [day, month, year] = tokens;
+  return `${day}.${month}.${year}`;
 };
