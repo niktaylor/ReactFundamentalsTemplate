@@ -23,12 +23,12 @@ export const Registration = () => {
     event.preventDefault();
     if (user?.name && user?.email && user?.password) {
       createUser(user).then((res) => {
-        if (res.successful) {
+        if (res?.successful) {
           navigate("/login");
         } else {
           setErrors({
             ...errors,
-            form: res.errors?.join(",\n"),
+            form: res?.errors?.join(",\n"),
           });
         }
       });

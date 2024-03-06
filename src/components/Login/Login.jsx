@@ -27,14 +27,14 @@ export const Login = () => {
     event.preventDefault();
     if (user?.email && user?.password) {
       login(user).then((res) => {
-        if (res.successful) {
+        if (res?.successful) {
           localStorage.setItem("token", res.result);
           localStorage.setItem("username", res.user.name);
           navigate("/courses");
         } else {
           setErrors({
             ...errors,
-            form: res.errors?.join(",\n"),
+            form: res?.errors?.join(",\n"),
           });
         }
       });
