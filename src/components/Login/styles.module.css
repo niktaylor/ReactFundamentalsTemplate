@@ -19,5 +19,8 @@
 .formContainer button {
 	width: 100%;
 	max-width: 254px;
-	margin-bottom: 20px;
+}
+
+.form-errors {
+	color: red;
 }

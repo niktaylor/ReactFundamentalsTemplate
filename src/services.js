@@ -1,9 +1,21 @@
+const root = "http://localhost:4000";
+const post = async (url, data) => {
+  const response = await fetch(`${root}/${url}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  return await response.json();
+};
+
 export const createUser = async (data) => {
-  // write your code here
+  return await post("register", data);
 };
 
 export const login = async (data) => {
-  // write your code here
+  return await post("login", data);
 };
 
 export const getCourses = async () => {

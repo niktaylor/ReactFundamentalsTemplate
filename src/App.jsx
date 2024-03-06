@@ -1,14 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
 import styles from "./App.module.css";
 import { Header } from "./components/Header";
-import { mockedAuthorsList, mockedCoursesList } from "./constants";
-import { CourseInfo, Courses } from "./components";
-
-// Module 1:
-// * use mockedAuthorsList and mockedCoursesList mocked data
-// * add next components to the App component: Header, Courses and CourseInfo
-// * pass 'mockedAuthorsList' and 'mockedCoursesList' to the Courses and CourseInfo components
+import { Outlet } from "react-router-dom";
 
 // Module 2:
 // * use mockedAuthorsList and mockedCoursesList mocked data
@@ -28,27 +22,10 @@ import { CourseInfo, Courses } from "./components";
 // * wrap 'CourseForm' in the 'PrivateRoute' component
 
 function App() {
-  const [showCourseId, setShowCourseId] = useState(null);
   return (
     <div className={styles.wrapper}>
       <Header></Header>
-      <div className={styles.container}>
-        {!showCourseId && (
-          <Courses
-            coursesList={mockedCoursesList}
-            authorsList={mockedAuthorsList}
-            handleShowCourse={(id) => setShowCourseId(id)}
-          ></Courses>
-        )}
-        {showCourseId && (
-          <CourseInfo
-            coursesList={mockedCoursesList}
-            authorsList={mockedAuthorsList}
-            showCourseId={showCourseId}
-            onBack={() => setShowCourseId(null)}
-          ></CourseInfo>
-        )}
-      </div>
+      <Outlet></Outlet>
     </div>
   );
 }
