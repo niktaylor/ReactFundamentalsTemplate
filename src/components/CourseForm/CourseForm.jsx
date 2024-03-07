@@ -185,7 +185,11 @@ export const CourseForm = ({ authorsList, createCourse, createAuthor }) => {
       </form>
       <div className={styles.buttonsContainer}>
         <Button buttonText="CANCEL" handleClick={cancel} />
-        <Button buttonText="CREATE COURSE" handleClick={submitCourse} />
+        <Button
+          buttonText="CREATE COURSE"
+          data-testid="createCourseButton"
+          handleClick={submitCourse}
+        />
       </div>
     </div>
   );

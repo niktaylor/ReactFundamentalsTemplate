@@ -26,10 +26,11 @@ export const CourseInfo = ({ authorsList, coursesList }) => {
   const params = useParams();
   const courseId = params.id;
 
-  const course = coursesList.find(({ id }) => id === courseId);
-  const courseAuthors = course.authors?.map(
-    (authorId) => authorsList.find(({ id }) => id === authorId).name
-  );
+  const course = coursesList?.find(({ id }) => id === courseId);
+  const courseAuthors =
+    course?.authors?.map(
+      (authorId) => authorsList?.find(({ id }) => id === authorId)?.name
+    ) ?? [];
   return (
     <div className={styles.container} data-testid="courseInfo">
       <h1>{course.title}</h1>
@@ -58,7 +59,7 @@ export const CourseInfo = ({ authorsList, coursesList }) => {
           </div>
         </div>
       </div>
-      <Link to="/courses">Back</Link>
+      <Link to="/courses">BACK</Link>
     </div>
   );
 };

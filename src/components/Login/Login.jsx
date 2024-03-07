@@ -28,8 +28,8 @@ export const Login = () => {
     if (user?.email && user?.password) {
       login(user).then((res) => {
         if (res?.successful) {
-          localStorage.setItem("token", res.result);
-          localStorage.setItem("username", res.user.name);
+          localStorage.setItem("token", res?.result);
+          localStorage.setItem("username", res?.user.name);
           navigate("/courses");
         } else {
           setErrors({

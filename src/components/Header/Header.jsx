@@ -33,6 +33,7 @@ import { useNavigate } from "react-router-dom";
 export const Header = () => {
   const navigate = useNavigate();
   const username = localStorage.getItem("username");
+  const isLoggedIn = !!localStorage.getItem("token");
   const logout = () => {
     localStorage.clear();
     navigate("/login");
@@ -42,7 +43,7 @@ export const Header = () => {
       <Logo></Logo>
       <div className={styles.userContainer}>
         <p className={styles.userName}>{username}</p>
-        {!!username && <Button buttonText={"Logout"} handleClick={logout} />}
+        {isLoggedIn && <Button buttonText={"Logout"} handleClick={logout} />}
       </div>
     </div>
   );
