@@ -1,13 +1,7 @@
 import React, { useState } from "react";
 
 import styles from "./App.module.css";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Outlet,
-  Navigate,
-} from "react-router-dom";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import { mockedAuthorsList, mockedCoursesList } from "./constants";
 import {
   Registration,
@@ -49,63 +43,61 @@ function App() {
   };
   return (
     <>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="courses/add"
-            element={
-              <>
-                <Header />
-                <CourseForm
-                  authorsList={authors}
-                  createCourse={addCourse}
-                  createAuthor={addAuthor}
-                />
-              </>
-            }
-          />
-          <Route
-            path="courses/:id"
-            element={
-              <>
-                <Header />
-                <CourseInfo authorsList={authors} coursesList={courses} />
-              </>
-            }
-          />
-          <Route
-            path="courses"
-            element={
-              <>
-                <Header />
-                <Courses authorsList={authors} coursesList={courses} />
-              </>
-            }
-          />
-          <Route
-            path="registration"
-            element={
-              <>
-                <Header />
-                <Registration />
-              </>
-            }
-          />
-          <Route
-            path="login"
-            element={
-              <>
-                <Header />
-                <Login />
-              </>
-            }
-          />
-          <Route
-            path="/"
-            element={<Navigate to={isLoggedIn ? "/courses" : "/login"} />}
-          />
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route
+          path="courses/add"
+          element={
+            <>
+              <Header />
+              <CourseForm
+                authorsList={authors}
+                createCourse={addCourse}
+                createAuthor={addAuthor}
+              />
+            </>
+          }
+        />
+        <Route
+          path="courses/:id"
+          element={
+            <>
+              <Header />
+              <CourseInfo authorsList={authors} coursesList={courses} />
+            </>
+          }
+        />
+        <Route
+          path="courses"
+          element={
+            <>
+              <Header />
+              <Courses authorsList={authors} coursesList={courses} />
+            </>
+          }
+        />
+        <Route
+          path="registration"
+          element={
+            <>
+              <Header />
+              <Registration />
+            </>
+          }
+        />
+        <Route
+          path="login"
+          element={
+            <>
+              <Header />
+              <Login />
+            </>
+          }
+        />
+        <Route
+          path="/"
+          element={<Navigate to={isLoggedIn ? "/courses" : "/login"} />}
+        />
+      </Routes>
       <div className={styles.wrapper}>
         <Outlet></Outlet>
       </div>
