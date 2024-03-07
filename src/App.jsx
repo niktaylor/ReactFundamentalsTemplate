@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 
 import styles from "./App.module.css";
-import { Header } from "./components/Header";
-import { Outlet } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+  Navigate,
+} from "react-router-dom";
+import { mockedAuthorsList, mockedCoursesList } from "./constants";
+import {
+  Registration,
+  Login,
+  Courses,
+  CourseInfo,
+  CourseForm,
+  Header,
+} from "./components";
 
 // Module 2:
 // * use mockedAuthorsList and mockedCoursesList mocked data
@@ -22,11 +36,80 @@ import { Outlet } from "react-router-dom";
 // * wrap 'CourseForm' in the 'PrivateRoute' component
 
 function App() {
+  const [courses, setCourses] = useState(mockedCoursesList);
+  const [authors, setAuthors] = useState(mockedAuthorsList);
+
+  const isLoggedIn = !!localStorage.getItem("token");
+
+  const addCourse = (course) => {
+    setCourses((courses) => [...courses, course]);
+  };
+  const addAuthor = (author) => {
+    setAuthors((authors) => [...authors, author]);
+  };
   return (
-    <div className={styles.wrapper}>
-      <Header></Header>
-      <Outlet></Outlet>
-    </div>
+    <>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="courses/add"
+            element={
+              <>
+                <Header />
+                <CourseForm
+                  authorsList={authors}
+                  createCourse={addCourse}
+                  createAuthor={addAuthor}
+                />
+              </>
+            }
+          />
+          <Route
+            path="courses/:id"
+            element={
+              <>
+                <Header />
+                <CourseInfo authorsList={authors} coursesList={courses} />
+              </>
+            }
+          />
+          <Route
+            path="courses"
+            element={
+              <>
+                <Header />
+                <Courses authorsList={authors} coursesList={courses} />
+              </>
+            }
+          />
+          <Route
+            path="registration"
+            element={
+              <>
+                <Header />
+                <Registration />
+              </>
+            }
+          />
+          <Route
+            path="login"
+            element={
+              <>
+                <Header />
+                <Login />
+              </>
+            }
+          />
+          <Route
+            path="/"
+            element={<Navigate to={isLoggedIn ? "/courses" : "/login"} />}
+          />
+        </Routes>
+      </BrowserRouter>
+      <div className={styles.wrapper}>
+        <Outlet></Outlet>
+      </div>
+    </>
   );
 }
 

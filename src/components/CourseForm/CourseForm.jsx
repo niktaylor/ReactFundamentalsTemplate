@@ -50,14 +50,21 @@ import { getCourseDuration } from "../../helpers/getCourseDuration";
 import { AuthorItem, CreateAuthor } from "./components";
 import { useNavigate } from "react-router-dom";
 
+const unique = (value, index, array) => array.indexOf(value) === index;
+
 export const CourseForm = ({ authorsList, createCourse, createAuthor }) => {
   const navigate = useNavigate();
-  // const [authorList, setAuthorList] = useState(authorsList);
   const [course, setCourse] = useState({});
   const [errors, setErrors] = useState({});
+  const [nextId, setNextId] = useState(0);
+
   const updateForm = (field) => {
     return (event) => {
       event.preventDefault();
+      setErrors({
+        ...errors,
+        [field]: undefined,
+      });
       setCourse({
         ...course,
         [field]: event.target.value,
@@ -66,30 +73,50 @@ export const CourseForm = ({ authorsList, createCourse, createAuthor }) => {
   };
   const addAuthor = (author, event) => {
     event.preventDefault();
-    setCourse((course) => {
-      if (course.authors) {
-        course.authors.push(author);
-      } else {
-        course.authors = [author];
-      }
-      return course;
-    });
+    setCourse((course) => ({
+      ...course,
+      authors: [...(course.authors ?? []), author].filter(unique),
+    }));
+  };
+  const removeAuthor = (author, event) => {
+    event.preventDefault();
+    setCourse((course) => ({
+      ...course,
+      authors: course.authors.filter(({ id }) => id !== author.id),
+    }));
   };
   const validateCourse = (course) => {
-    setErrors({
-      title: course.title?.length < 2 ? "Title Required" : "",
-      description: course.description?.length < 2 ? "Description Required" : "",
-      duration: course.duration?.length < 1 ? "Duration Required" : "",
-      authors: course.authors?.length < 1 ? "Authors Required" : "",
-    });
+    const errorMessages = {
+      title: !course.title || course.title?.length < 2 ? "Title Required" : "",
+      description:
+        !course.description || course.description?.length < 2
+          ? "Description Required"
+          : "",
+      duration:
+        !course.duration || course.duration?.length < 1
+          ? "Duration Required"
+          : "",
+      authors:
+        !course.authors || course.authors?.length < 1 ? "Authors Required" : "",
+    };
+    setErrors(errorMessages);
+
+    return Object.values(errorMessages).filter((e) => e?.length).length;
   };
   const cancel = () => {
     navigate("/courses");
   };
   const submitCourse = () => {
-    validateCourse(course);
-    if (!errors) {
-      createCourse(course);
+    const errorCount = validateCourse(course);
+    if (errorCount === 0) {
+      createCourse({
+        ...course,
+        authors: course.authors.map(({ id }) => id),
+        creationDate: "05/03/2024",
+        id: `${nextId}`,
+      });
+      setNextId((id) => id + 1);
+      navigate("/courses");
     }
   };
 
@@ -144,7 +171,11 @@ export const CourseForm = ({ authorsList, createCourse, createAuthor }) => {
             <h2>Course authors</h2>
             <label className="error">{errors?.authors}</label>
             {course?.authors?.map((author) => (
-              <AuthorItem author={author} key={author.id} />
+              <AuthorItem
+                author={author}
+                key={author.id}
+                handleClick={(event) => removeAuthor(author, event)}
+              />
             ))}
             {!course?.authors?.length && (
               <p className={styles.notification}>List is empty</p>

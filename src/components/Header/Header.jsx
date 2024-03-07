@@ -37,18 +37,12 @@ export const Header = () => {
     localStorage.clear();
     navigate("/login");
   };
-  const login = () => {
-    navigate("/login");
-  };
   return (
     <div className={styles.headerContainer}>
       <Logo></Logo>
       <div className={styles.userContainer}>
         <p className={styles.userName}>{username}</p>
-        <Button
-          buttonText={username ? "Logout" : "Login"}
-          handleClick={username ? logout : login}
-        ></Button>
+        {!!username && <Button buttonText={"Logout"} handleClick={logout} />}
       </div>
     </div>
   );

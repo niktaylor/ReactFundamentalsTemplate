@@ -9,7 +9,7 @@ export const CreateAuthor = ({ onCreateAuthor }) => {
   const handleCreateAuthor = (event) => {
     event.preventDefault();
     setError(authorName.length < 2 ? "Author Name Required" : "");
-    if (error) {
+    if (!error?.length) {
       onCreateAuthor({
         id: `${nextAuthorId}`,
         name: authorName,
