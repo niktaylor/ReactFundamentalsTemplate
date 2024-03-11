@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 
 import styles from "./App.module.css";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
-import { mockedAuthorsList, mockedCoursesList } from "./constants";
 import {
   Registration,
   Login,
@@ -11,11 +10,12 @@ import {
   CourseForm,
   Header,
 } from "./components";
-
-// Module 2:
-// * use mockedAuthorsList and mockedCoursesList mocked data
-// * wrap your App with BrowserRouter in src/index.js
-// ** TASK DESCRIPTION ** - https://d17btkcdsmqrmh.cloudfront.net/new-react-fundamentals/docs/module-2/home-task/components#add-the-router-to-the-app-component
+import { isAuth } from "./store/selectors";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useDispatch } from "react-redux/es/hooks/useDispatch";
+import { getAuthors, getCourses } from "./services";
+import { setAuthors } from "./store/slices/authorsSlice";
+import { setCourses } from "./store/slices/coursesSlice";
 
 // Module 3:
 // * wrap your App with Redux Provider in src/index.js
@@ -30,17 +30,22 @@ import {
 // * wrap 'CourseForm' in the 'PrivateRoute' component
 
 function App() {
-  const [courses, setCourses] = useState(mockedCoursesList);
-  const [authors, setAuthors] = useState(mockedAuthorsList);
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector(isAuth);
 
-  const isLoggedIn = !!localStorage.getItem("token");
+  useEffect(() => {
+    getAuthors().then((res) => {
+      if (res?.successful) {
+        dispatch(setAuthors({ authors: res.result }));
+      }
+    });
+    getCourses().then((res) => {
+      if (res?.successful) {
+        dispatch(setCourses({ courses: res.result }));
+      }
+    });
+  }, [dispatch]);
 
-  const addCourse = (course) => {
-    setCourses((courses) => [...courses, course]);
-  };
-  const addAuthor = (author) => {
-    setAuthors((authors) => [...authors, author]);
-  };
   return (
     <>
       <Routes>
@@ -49,11 +54,7 @@ function App() {
           element={
             <>
               <Header />
-              <CourseForm
-                authorsList={authors}
-                createCourse={addCourse}
-                createAuthor={addAuthor}
-              />
+              <CourseForm />
             </>
           }
         />
@@ -62,7 +63,7 @@ function App() {
           element={
             <>
               <Header />
-              <CourseInfo authorsList={authors} coursesList={courses} />
+              <CourseInfo />
             </>
           }
         />
@@ -71,7 +72,7 @@ function App() {
           element={
             <>
               <Header />
-              <Courses authorsList={authors} coursesList={courses} />
+              <Courses />
             </>
           }
         />

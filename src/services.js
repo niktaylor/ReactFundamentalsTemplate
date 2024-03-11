@@ -1,10 +1,36 @@
 const root = "http://localhost:4000";
+const headers = {
+  "Content-Type": "application/json",
+};
+
 const post = async (url, data) => {
   const response = await fetch(`${root}/${url}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers,
+    body: JSON.stringify(data),
+  });
+  return await response.json();
+};
+
+const get = async (url) => {
+  const response = await fetch(`${root}/${url}`, {
+    method: "GET",
+    headers,
+  });
+  return await response.json();
+};
+
+const remove = async (url) => {
+  const response = await fetch(`${root}/${url}`, {
+    method: "DELETE",
+  });
+  return await response.json();
+};
+
+const put = async (url, data) => {
+  const response = await fetch(`${root}/${url}`, {
+    method: "PUT",
+    headers,
     body: JSON.stringify(data),
   });
   return await response.json();
@@ -19,33 +45,33 @@ export const login = async (data) => {
 };
 
 export const getCourses = async () => {
-  // write your code here
+  return get("courses/all");
 };
 
 export const getAuthors = async () => {
-  // write your code here
+  return get("authors/all");
 };
 
 export const getCurrentUser = async () => {
   // write your code here
 };
 
-export const updateCourseService = async () => {
-  // write your code here
+export const updateCourseService = async (data) => {
+  return put(`courses/${data.id}`, data);
 };
 
 export const logout = async () => {
   // write your code here
 };
 
-export const deleteCourseService = async () => {
-  // write your code here
+export const deleteCourseService = async (id) => {
+  return remove(`courses/${id}`);
 };
 
-export const createCourse = async () => {
-  // write your code here
+export const createCourse = async (data) => {
+  return post("courses/add", data);
 };
 
-export const createAuthor = async () => {
-  // write your code here
+export const createAuthor = async (data) => {
+  return post("authors/add", data);
 };

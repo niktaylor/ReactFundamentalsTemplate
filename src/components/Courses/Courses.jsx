@@ -4,6 +4,8 @@ import styles from "./styles.module.css";
 import { CourseCard, EmptyCourseList } from "./components";
 import { Button } from "../../common";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { getAuthorsSelector, getCoursesSelector } from "../../store/selectors";
 
 // Module 2:
 // * render this component by route '/courses'
@@ -27,7 +29,9 @@ import { useNavigate } from "react-router-dom";
 //   ** Courses should display amount of CourseCard equal length of courses array.
 //   ** CourseForm should be shown after a click on the "Add new course" button.
 
-export const Courses = ({ coursesList, authorsList }) => {
+export const Courses = () => {
+  const courses = useSelector(getCoursesSelector);
+  const authors = useSelector(getAuthorsSelector);
   const navigate = useNavigate();
 
   const emptyCourseList = (
@@ -35,11 +39,11 @@ export const Courses = ({ coursesList, authorsList }) => {
       handleAddCourse={() => navigate("/courses/add")}
     ></EmptyCourseList>
   );
-  const courseList = coursesList?.map((course) => (
+  const courseList = courses?.map((course) => (
     <CourseCard
       key={course.id}
       course={course}
-      authorsList={authorsList}
+      authorsList={authors}
       handleShowCourse={(event) => navigate(`/courses/${event}`)}
     ></CourseCard>
   ));
@@ -52,7 +56,7 @@ export const Courses = ({ coursesList, authorsList }) => {
           data-testid="addCourse"
         ></Button>
       </div>
-      {coursesList?.length ? courseList : emptyCourseList}
+      {courses?.length ? courseList : emptyCourseList}
     </>
   );
 };
