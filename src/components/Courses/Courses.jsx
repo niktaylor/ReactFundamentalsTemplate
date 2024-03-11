@@ -3,13 +3,7 @@ import React from "react";
 import styles from "./styles.module.css";
 import { CourseCard, EmptyCourseList } from "./components";
 import { Button } from "../../common";
-
-// Module 1:
-// * render list of components using 'CourseCard' component for each course
-// * render 'ADD NEW COURSE' button (reuse Button component)
-// ** TASK DESCRIPTION ** - https://d17btkcdsmqrmh.cloudfront.net/new-react-fundamentals/docs/module-1/home-task/components#courses-component
-// * render EmptyCourseList component when no courses
-// ** TASK DESCRIPTION ** - https://d17btkcdsmqrmh.cloudfront.net/new-react-fundamentals/docs/module-1/home-task/components#emptycourselist-component
+import { useNavigate } from "react-router-dom";
 
 // Module 2:
 // * render this component by route '/courses'
@@ -33,22 +27,20 @@ import { Button } from "../../common";
 //   ** Courses should display amount of CourseCard equal length of courses array.
 //   ** CourseForm should be shown after a click on the "Add new course" button.
 
-export const Courses = ({ coursesList, authorsList, handleShowCourse }) => {
-  // write your code here
+export const Courses = ({ coursesList, authorsList }) => {
+  const navigate = useNavigate();
 
-  // for EmptyCourseList component container use data-testid="emptyContainer" attribute
-  // for button in EmptyCourseList component add data-testid="addCourse" attribute
-  const handleAddCourse = () => {
-    console.log("Handle add course");
-  };
   const emptyCourseList = (
-    <EmptyCourseList handleAddCourse={handleAddCourse}></EmptyCourseList>
+    <EmptyCourseList
+      handleAddCourse={() => navigate("/courses/add")}
+    ></EmptyCourseList>
   );
   const courseList = coursesList?.map((course) => (
     <CourseCard
+      key={course.id}
       course={course}
       authorsList={authorsList}
-      handleShowCourse={handleShowCourse}
+      handleShowCourse={(event) => navigate(`/courses/${event}`)}
     ></CourseCard>
   ));
   return (
@@ -56,7 +48,7 @@ export const Courses = ({ coursesList, authorsList, handleShowCourse }) => {
       <div className={styles.panel}>
         <Button
           buttonText="ADD NEW COURSE"
-          handleClick={handleAddCourse}
+          handleClick={() => navigate("/courses/add")}
           data-testid="addCourse"
         ></Button>
       </div>

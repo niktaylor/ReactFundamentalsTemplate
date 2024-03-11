@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 
 import styles from "./App.module.css";
-import { Header } from "./components/Header";
+import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import { mockedAuthorsList, mockedCoursesList } from "./constants";
-import { CourseInfo, Courses } from "./components";
-
-// Module 1:
-// * use mockedAuthorsList and mockedCoursesList mocked data
-// * add next components to the App component: Header, Courses and CourseInfo
-// * pass 'mockedAuthorsList' and 'mockedCoursesList' to the Courses and CourseInfo components
+import {
+  Registration,
+  Login,
+  Courses,
+  CourseInfo,
+  CourseForm,
+  Header,
+} from "./components";
 
 // Module 2:
 // * use mockedAuthorsList and mockedCoursesList mocked data
@@ -28,28 +30,78 @@ import { CourseInfo, Courses } from "./components";
 // * wrap 'CourseForm' in the 'PrivateRoute' component
 
 function App() {
-  const [showCourseId, setShowCourseId] = useState(null);
+  const [courses, setCourses] = useState(mockedCoursesList);
+  const [authors, setAuthors] = useState(mockedAuthorsList);
+
+  const isLoggedIn = !!localStorage.getItem("token");
+
+  const addCourse = (course) => {
+    setCourses((courses) => [...courses, course]);
+  };
+  const addAuthor = (author) => {
+    setAuthors((authors) => [...authors, author]);
+  };
   return (
-    <div className={styles.wrapper}>
-      <Header></Header>
-      <div className={styles.container}>
-        {!showCourseId && (
-          <Courses
-            coursesList={mockedCoursesList}
-            authorsList={mockedAuthorsList}
-            handleShowCourse={(id) => setShowCourseId(id)}
-          ></Courses>
-        )}
-        {showCourseId && (
-          <CourseInfo
-            coursesList={mockedCoursesList}
-            authorsList={mockedAuthorsList}
-            showCourseId={showCourseId}
-            onBack={() => setShowCourseId(null)}
-          ></CourseInfo>
-        )}
+    <>
+      <Routes>
+        <Route
+          path="courses/add"
+          element={
+            <>
+              <Header />
+              <CourseForm
+                authorsList={authors}
+                createCourse={addCourse}
+                createAuthor={addAuthor}
+              />
+            </>
+          }
+        />
+        <Route
+          path="courses/:id"
+          element={
+            <>
+              <Header />
+              <CourseInfo authorsList={authors} coursesList={courses} />
+            </>
+          }
+        />
+        <Route
+          path="courses"
+          element={
+            <>
+              <Header />
+              <Courses authorsList={authors} coursesList={courses} />
+            </>
+          }
+        />
+        <Route
+          path="registration"
+          element={
+            <>
+              <Header />
+              <Registration />
+            </>
+          }
+        />
+        <Route
+          path="login"
+          element={
+            <>
+              <Header />
+              <Login />
+            </>
+          }
+        />
+        <Route
+          path="/"
+          element={<Navigate to={isLoggedIn ? "/courses" : "/login"} />}
+        />
+      </Routes>
+      <div className={styles.wrapper}>
+        <Outlet></Outlet>
       </div>
-    </div>
+    </>
   );
 }
 

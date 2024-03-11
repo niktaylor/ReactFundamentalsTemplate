@@ -1,5 +1,3 @@
-// // Module 1. You don't need to do anything with this component (we had to comment this component for 1st module tests)
-
 // // Module 2.
 // // * uncomment this component (ctrl + a => ctrl + /)
 // // * finish markup according to the figma https://www.figma.com/file/m0N0SGLclqUEGR6TUNvyn9/Fundamentals-Courses?type=design&node-id=2927-216&mode=design&t=0FIG0iRzKcD0s16M-0
@@ -15,26 +13,73 @@
 // // * save user's name, token and email to the store after success login.
 // // ** TASK DESCRIPTION ** - https://d17btkcdsmqrmh.cloudfront.net/new-react-fundamentals/docs/module-3/home-task/components#login-component
 
-// import React from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import styles from "./styles.module.css";
+import { login } from "../../services";
+import { Button, Input } from "../../common";
 
-// import styles from "./styles.module.css";
+export const Login = () => {
+  const [user, setUser] = useState({});
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (user?.email && user?.password) {
+      login(user).then((res) => {
+        if (res?.successful) {
+          localStorage.setItem("token", res?.result);
+          localStorage.setItem("username", res?.user.name);
+          navigate("/courses");
+        } else {
+          setErrors({
+            ...errors,
+            form: res?.errors?.join(",\n"),
+          });
+        }
+      });
+    } else {
+      setErrors({
+        email: !user?.email ? "Email is required" : "",
+        password: !user?.password ? "Password is required" : "",
+      });
+    }
+  };
 
-// export const Login = () => {
-//   // write your code here
+  const updateForm = (field) => {
+    return (event) => {
+      setUser({
+        ...user,
+        [field]: event.target.value,
+      });
+    };
+  };
 
-//   return (
-//     <div className={styles.container}>
-//       <h1>Login</h1>
-//       <div className={styles.formContainer}>
-//         <form onSubmit={handleSubmit}>
-//           // reuse Input component for email field // reuse Input component for
-//           password field // reuse Button component for 'Login' button
-//         </form>
-//         <p>
-//           If you don't have an account you may&nbsp; // use <Link /> component
-//           for navigation to Registration page
-//         </p>
-//       </div>
-//     </div>
-//   );
-// };
+  return (
+    <div className={styles.container}>
+      <h1>Login</h1>
+      <div className={styles.formContainer}>
+        <form onSubmit={handleSubmit}>
+          <Input
+            labelText="Email"
+            placeholderText="Input Text"
+            error={errors.email}
+            onChange={updateForm("email")}
+          ></Input>
+          <Input
+            labelText="Password"
+            placeholderText="Input Text"
+            error={errors.password}
+            onChange={updateForm("password")}
+          ></Input>
+          <label className="form-errors">{errors.form}</label>
+          <Button buttonText="Submit"></Button>
+        </form>
+        <p>
+          If you don't have an account you may&nbsp;
+          <Link to="/registration">Register</Link>
+        </p>
+      </div>
+    </div>
+  );
+};

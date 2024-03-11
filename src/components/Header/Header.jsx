@@ -4,11 +4,7 @@ import styles from "./styles.module.css";
 
 import { Logo } from "./components";
 import { Button } from "../../common";
-
-// Module 1:
-// * add Logo and Button components
-// * add Header component to the App component
-// ** TASK DESCRIPTION ** - https://d17btkcdsmqrmh.cloudfront.net/new-react-fundamentals/docs/module-1/home-task/components#header
+import { useNavigate } from "react-router-dom";
 
 // Module 2:
 // * show user's name if he is logged in.
@@ -35,14 +31,19 @@ import { Button } from "../../common";
 //   ** Header should have logo and user's name.
 
 export const Header = () => {
-  // write your code here
-  const logout = () => {};
+  const navigate = useNavigate();
+  const username = localStorage.getItem("username");
+  const isLoggedIn = !!localStorage.getItem("token");
+  const logout = () => {
+    localStorage.clear();
+    navigate("/login");
+  };
   return (
     <div className={styles.headerContainer}>
       <Logo></Logo>
       <div className={styles.userContainer}>
-        <p className={styles.userName}>Harry Potter</p>
-        <Button buttonText={"Login"} handleClick={logout}></Button>
+        <p className={styles.userName}>{username}</p>
+        {isLoggedIn && <Button buttonText={"Logout"} handleClick={logout} />}
       </div>
     </div>
   );

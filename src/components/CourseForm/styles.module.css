@@ -68,3 +68,7 @@ form {
   gap: 20px;
   margin: 40px 0;
 }
+
+.error {
+  color: red;
+}
