@@ -1,16 +1,3 @@
-// Module 2.
-// * uncomment this component (ctrl + a => ctrl + /)
-// * add functionality to create new course with:
-//   ** title
-//   ** description
-//   ** duration (user enters in minutes, you should map in format «hh:mm»)
-//   ** existing authors (use 'authorsList' prop)
-//   ** new created author (create field and button, update 'authorsList')
-//   ** user should be able to remove author from the course
-//   ** add validation to the fields
-//   ** add new course to the 'coursesList' and navigate to the '/courses' page => new course should be in the courses list
-// ** TASK DESCRIPTION ** - https://d17btkcdsmqrmh.cloudfront.net/new-react-fundamentals/docs/module-2/home-task/components#add-new-course
-
 // Module 3.
 // * save new course to the store. Use action 'saveCourse' from 'src/store/slices/coursesSlice'
 // * save new author to the store. Use action 'saveAuthor' from 'src/store/slices/authorsSlice'
@@ -49,14 +36,28 @@ import { Input, Button } from "../../common";
 import { getCourseDuration } from "../../helpers/getCourseDuration";
 import { AuthorItem, CreateAuthor } from "./components";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useDispatch } from "react-redux/es/hooks/useDispatch";
+import { getAuthorsSelector } from "../../store/selectors";
+import { saveAuthor } from "../../store/slices/authorsSlice";
+import { saveCourse } from "../../store/slices/coursesSlice";
 
 const unique = (value, index, array) => array.indexOf(value) === index;
 
-export const CourseForm = ({ authorsList, createCourse, createAuthor }) => {
+export const CourseForm = () => {
+  const dispatch = useDispatch();
+  const authorsList = useSelector(getAuthorsSelector);
   const navigate = useNavigate();
   const [course, setCourse] = useState({});
   const [errors, setErrors] = useState({});
   const [nextId, setNextId] = useState(0);
+
+  const saveNewAuthor = (newAuthor) => {
+    dispatch(saveAuthor({ author: newAuthor }));
+  };
+  const createCourse = (course) => {
+    dispatch(saveCourse({ course }));
+  };
 
   const updateForm = (field) => {
     return (event) => {
@@ -154,7 +155,7 @@ export const CourseForm = ({ authorsList, createCourse, createAuthor }) => {
               <p>{getCourseDuration(course?.duration ?? 0)}</p>
             </div>
             <h2>Authors</h2>
-            <CreateAuthor onCreateAuthor={createAuthor} />
+            <CreateAuthor onCreateAuthor={saveNewAuthor} />
             <div className={styles.authorsContainer}>
               <h3>Authors List</h3>
               {authorsList?.map((author) => (

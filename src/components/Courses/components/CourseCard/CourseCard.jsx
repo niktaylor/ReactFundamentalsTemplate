@@ -22,16 +22,25 @@ import React from "react";
 
 import { getCourseDuration, formatCreationDate } from "../../../../helpers";
 
-// import deleteIcon from "../../../../assets/deleteButtonIcon.svg";
-// import editIcon from "../../../../assets/editButtonIcon.svg";
+import deleteIcon from "../../../../assets/deleteButtonIcon.svg";
+import editIcon from "../../../../assets/editButtonIcon.svg";
 
 import styles from "./styles.module.css";
 import { Button } from "../../../../common";
+import { useDispatch } from "react-redux/es/hooks/useDispatch";
+import { deleteCourse } from "../../../../store/slices/coursesSlice";
 
 export const CourseCard = ({ course, handleShowCourse, authorsList }) => {
+  const dispatch = useDispatch();
   const courseAuthors = course.authors?.map(
     (authorId) => authorsList.find(({ id }) => id === authorId).name
   );
+
+  const removeCourse = () => {
+    dispatch(deleteCourse({ course }));
+  };
+
+  const icon = (svg, alt) => <img src={svg} alt={alt} />;
 
   return (
     <div className={styles.cardContainer} data-testid="courseCard">
@@ -54,15 +63,19 @@ export const CourseCard = ({ course, handleShowCourse, authorsList }) => {
         </p>
         <div className={styles.buttonsContainer}>
           <Button
-            buttonText={"SHOW COURSE"}
+            buttonText="SHOW COURSE"
             handleClick={() => handleShowCourse(course.id)}
-          ></Button>
-          {/* 
-				reuse Button	component with deleteButtonIcon from 'src/assets' for 'Delete' button
-						with data-testid="deleteCourse" 
-				reuse Link component with editButtonIcon from 'src/assets' for 'Update' button with
-						data-testid="updateCourse" 
-			*/}
+          />
+          <Button
+            buttonText={icon(deleteIcon, "delete")}
+            data-testid="deleteCourse"
+            handleClick={removeCourse}
+          />
+          <Button
+            buttonText={icon(editIcon, "edit")}
+            data-testid="updateCourse"
+            handleClick={() => {}}
+          />
         </div>
       </div>
     </div>

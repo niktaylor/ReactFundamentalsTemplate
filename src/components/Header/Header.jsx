@@ -5,14 +5,10 @@ import styles from "./styles.module.css";
 import { Logo } from "./components";
 import { Button } from "../../common";
 import { useNavigate } from "react-router-dom";
-
-// Module 2:
-// * show user's name if he is logged in.
-// * navigate to the /login route after 'LOGOUT' button click
-// * hide 'LOGOUT' button and user's name for Login and Registration pages
-// * remove token from localStorage by LOGOUT button click.
-// ** PAY ATTATION ** token should be removed from localStorage immediately inside logout handler function
-// ** TASK DESCRIPTION ** - https://d17btkcdsmqrmh.cloudfront.net/new-react-fundamentals/docs/module-2/home-task/components#header
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useDispatch } from "react-redux/es/hooks/useDispatch";
+import { getUserNameSelector } from "../../store/selectors";
+import { removeUserData } from "../../store/slices/userSlice";
 
 // Module 3:
 // * get user's name from the store. Use selector...
@@ -31,11 +27,13 @@ import { useNavigate } from "react-router-dom";
 //   ** Header should have logo and user's name.
 
 export const Header = () => {
+  const dispatch = useDispatch();
+  const username = useSelector(getUserNameSelector);
   const navigate = useNavigate();
-  const username = localStorage.getItem("username");
   const isLoggedIn = !!localStorage.getItem("token");
   const logout = () => {
     localStorage.clear();
+    dispatch(removeUserData());
     navigate("/login");
   };
   return (
