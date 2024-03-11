@@ -1,18 +1,22 @@
 const root = "http://localhost:4000";
+const headers = {
+  "Content-Type": "application/json",
+};
 
 const post = async (url, data) => {
   const response = await fetch(`${root}/${url}`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers,
     body: JSON.stringify(data),
   });
   return await response.json();
 };
 
 const get = async (url) => {
-  const response = await fetch(`${root}/${url}`);
+  const response = await fetch(`${root}/${url}`, {
+    method: "GET",
+    headers,
+  });
   return await response.json();
 };
 
@@ -26,9 +30,7 @@ const remove = async (url) => {
 const put = async (url, data) => {
   const response = await fetch(`${root}/${url}`, {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers,
     body: JSON.stringify(data),
   });
   return await response.json();

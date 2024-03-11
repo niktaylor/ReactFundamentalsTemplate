@@ -39,7 +39,6 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
 import { getAuthorsSelector } from "../../store/selectors";
-import { saveAuthor } from "../../store/slices/authorsSlice";
 import { saveCourse } from "../../store/slices/coursesSlice";
 
 const unique = (value, index, array) => array.indexOf(value) === index;
@@ -52,9 +51,6 @@ export const CourseForm = () => {
   const [errors, setErrors] = useState({});
   const [nextId, setNextId] = useState(0);
 
-  const saveNewAuthor = (newAuthor) => {
-    dispatch(saveAuthor({ author: newAuthor }));
-  };
   const createCourse = (course) => {
     dispatch(saveCourse({ course }));
   };
@@ -155,7 +151,7 @@ export const CourseForm = () => {
               <p>{getCourseDuration(course?.duration ?? 0)}</p>
             </div>
             <h2>Authors</h2>
-            <CreateAuthor onCreateAuthor={saveNewAuthor} />
+            <CreateAuthor />
             <div className={styles.authorsContainer}>
               <h3>Authors List</h3>
               {authorsList?.map((author) => (
