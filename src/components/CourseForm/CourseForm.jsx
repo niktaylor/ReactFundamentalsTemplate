@@ -39,7 +39,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
 import { getAuthorsSelector } from "../../store/selectors";
-import { saveCourse } from "../../store/slices/coursesSlice";
+import { createCourseThunk } from "../../store/thunks/coursesThunk";
 
 const unique = (value, index, array) => array.indexOf(value) === index;
 
@@ -49,10 +49,9 @@ export const CourseForm = () => {
   const navigate = useNavigate();
   const [course, setCourse] = useState({});
   const [errors, setErrors] = useState({});
-  const [nextId, setNextId] = useState(0);
 
   const createCourse = (course) => {
-    dispatch(saveCourse({ course }));
+    dispatch(createCourseThunk(course));
   };
 
   const updateForm = (field) => {
@@ -110,9 +109,7 @@ export const CourseForm = () => {
         ...course,
         authors: course.authors.map(({ id }) => id),
         creationDate: "05/03/2024",
-        id: `${nextId}`,
       });
-      setNextId((id) => id + 1);
       navigate("/courses");
     }
   };

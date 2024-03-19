@@ -1,9 +1,3 @@
-// Module 3.
-// * add two new buttons: update and delete'. Use icons from 'src/assets/...'.
-// * remove course from the store by 'delete' button click
-// * no functionality for 'update' button for now
-// ** TASK DESCRIPTION ** - https://d17btkcdsmqrmh.cloudfront.net/new-react-fundamentals/docs/module-3/home-task/components#coursecard-component
-
 // Module 4.
 // * show 'delete' and 'update' buttons only for ADMIN user
 // * make delete request by 'delete' button click
@@ -28,17 +22,26 @@ import editIcon from "../../../../assets/editButtonIcon.svg";
 import styles from "./styles.module.css";
 import { Button } from "../../../../common";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
-import { deleteCourse } from "../../../../store/slices/coursesSlice";
+import { useSelector } from "react-redux";
+import { isAdminSelector } from "../../../../store/selectors";
+import { deleteCourseThunk } from "../../../../store/thunks/coursesThunk";
+import { useNavigate } from "react-router-dom";
 
 export const CourseCard = ({ course, handleShowCourse, authorsList }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const courseAuthors = course.authors?.map(
-    (authorId) => authorsList.find(({ id }) => id === authorId).name
+    (authorId) => authorsList.find(({ id }) => id === authorId)?.name
   );
 
   const removeCourse = () => {
-    dispatch(deleteCourse({ course }));
+    dispatch(deleteCourseThunk(course.id));
   };
+  const editCourse = () => {
+    navigate(`/courses/update/${course.id}`);
+  };
+
+  const isAdmin = useSelector(isAdminSelector);
 
   const icon = (svg, alt) => <img src={svg} alt={alt} />;
 
@@ -66,16 +69,20 @@ export const CourseCard = ({ course, handleShowCourse, authorsList }) => {
             buttonText="SHOW COURSE"
             handleClick={() => handleShowCourse(course.id)}
           />
-          <Button
-            buttonText={icon(deleteIcon, "delete")}
-            data-testid="deleteCourse"
-            handleClick={removeCourse}
-          />
-          <Button
-            buttonText={icon(editIcon, "edit")}
-            data-testid="updateCourse"
-            handleClick={() => {}}
-          />
+          {isAdmin && (
+            <>
+              <Button
+                buttonText={icon(deleteIcon, "delete")}
+                data-testid="deleteCourse"
+                handleClick={removeCourse}
+              />
+              <Button
+                buttonText={icon(editIcon, "edit")}
+                data-testid="updateCourse"
+                handleClick={editCourse}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>
