@@ -1,8 +1,3 @@
-// Module 3.
-// * save new course to the store. Use action 'saveCourse' from 'src/store/slices/coursesSlice'
-// * save new author to the store. Use action 'saveAuthor' from 'src/store/slices/authorsSlice'
-// ** TASK DESCRIPTION ** - https://d17btkcdsmqrmh.cloudfront.net/new-react-fundamentals/docs/module-3/home-task/components#add-new-course
-
 // Module 4.
 // * render this component only for ADMIN user
 // * in this module you should separate functionality for this component:
