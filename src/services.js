@@ -51,12 +51,15 @@ export const getCurrentUser = async (token) => {
 };
 
 export const updateCourseService = async (data, token) => {
-  const id = data.id;
-  delete data.id;
-  const res = await fetch(`${root}/courses/${id}`, {
+  const res = await fetch(`${root}/courses/${data.id}`, {
     method: "PUT",
     headers: getHeaders(true, token),
-    body: JSON.stringify(data),
+    body: JSON.stringify({
+      title: data.title,
+      description: data.description,
+      duration: data.duration,
+      authors: data.authors,
+    }),
   });
   return await res.json();
 };
