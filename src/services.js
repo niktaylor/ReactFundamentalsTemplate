@@ -1,77 +1,98 @@
 const root = "http://localhost:4000";
-const headers = {
-  "Content-Type": "application/json",
-};
 
-const post = async (url, data) => {
-  const response = await fetch(`${root}/${url}`, {
-    method: "POST",
-    headers,
-    body: JSON.stringify(data),
-  });
-  return await response.json();
-};
-
-const get = async (url) => {
-  const response = await fetch(`${root}/${url}`, {
-    method: "GET",
-    headers,
-  });
-  return await response.json();
-};
-
-const remove = async (url) => {
-  const response = await fetch(`${root}/${url}`, {
-    method: "DELETE",
-  });
-  return await response.json();
-};
-
-const put = async (url, data) => {
-  const response = await fetch(`${root}/${url}`, {
-    method: "PUT",
-    headers,
-    body: JSON.stringify(data),
-  });
-  return await response.json();
+const getHeaders = (auth, token) => {
+  const headers = { "Content-Type": "application/json" };
+  if (auth) {
+    headers["Authorization"] = token ?? localStorage.getItem("token");
+  }
+  return headers;
 };
 
 export const createUser = async (data) => {
-  return await post("register", data);
+  const res = await fetch(`${root}/register`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: JSON.stringify(data),
+  });
+  return await res.json();
 };
 
 export const login = async (data) => {
-  return await post("login", data);
+  const res = await fetch(`${root}/login`, {
+    method: "POST",
+    headers: getHeaders(),
+    body: JSON.stringify(data),
+  });
+  return await res.json();
 };
 
 export const getCourses = async () => {
-  return get("courses/all");
+  const res = await fetch(`${root}/courses/all`, {
+    method: "GET",
+    headers: getHeaders(),
+  });
+  return await res.json();
 };
 
 export const getAuthors = async () => {
-  return get("authors/all");
+  const res = await fetch(`${root}/authors/all`, {
+    method: "GET",
+    headers: getHeaders(),
+  });
+  return await res.json();
 };
 
-export const getCurrentUser = async () => {
-  // write your code here
+export const getCurrentUser = async (token) => {
+  const res = await fetch(`${root}/users/me`, {
+    method: "GET",
+    headers: getHeaders(true, token),
+  });
+  return await res.json();
 };
 
-export const updateCourseService = async (data) => {
-  return put(`courses/${data.id}`, data);
+export const updateCourseService = async (data, token) => {
+  const res = await fetch(`${root}/courses/${data.id}`, {
+    method: "PUT",
+    headers: getHeaders(true, token),
+    body: JSON.stringify({
+      title: data.title,
+      description: data.description,
+      duration: data.duration,
+      authors: data.authors,
+    }),
+  });
+  return await res.json();
 };
 
 export const logout = async () => {
-  // write your code here
+  return await fetch(`${root}/`, {
+    method: "DELETE",
+    headers: getHeaders(),
+  });
 };
 
-export const deleteCourseService = async (id) => {
-  return remove(`courses/${id}`);
+export const deleteCourseService = async (id, token) => {
+  const res = await fetch(`${root}/courses/${id}`, {
+    method: "DELETE",
+    headers: getHeaders(true, token),
+  });
+  return await res.json();
 };
 
-export const createCourse = async (data) => {
-  return post("courses/add", data);
+export const createCourse = async (data, token) => {
+  const res = await fetch(`${root}/courses/add`, {
+    method: "POST",
+    headers: getHeaders(true, token),
+    body: JSON.stringify(data),
+  });
+  return await res.json();
 };
 
-export const createAuthor = async (data) => {
-  return post("authors/add", data);
+export const createAuthor = async (data, token) => {
+  const res = await fetch(`${root}/authors/add`, {
+    method: "POST",
+    headers: getHeaders(true, token),
+    body: JSON.stringify(data),
+  });
+  return await res.json();
 };

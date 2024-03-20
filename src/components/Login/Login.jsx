@@ -1,7 +1,3 @@
-// // Module 3.
-// // * save user's name, token and email to the store after success login.
-// // ** TASK DESCRIPTION ** - https://d17btkcdsmqrmh.cloudfront.net/new-react-fundamentals/docs/module-3/home-task/components#login-component
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
@@ -28,7 +24,6 @@ export const Login = () => {
             })
           );
           localStorage.setItem("token", res?.result);
-          // localStorage.setItem("username", res?.user.name);
           navigate("/courses");
         } else {
           setErrors({

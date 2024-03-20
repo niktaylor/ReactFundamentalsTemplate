@@ -6,14 +6,12 @@ export const coursesSlice = createSlice({
   name: "courses",
   initialState,
   reducers: {
-    setCourses: (state, { payload }) => [...payload.courses],
-    saveCourse: (state, { payload }) => [...state, payload.course],
+    setCourses: (state, { payload }) => [...payload],
+    saveCourse: (state, { payload }) => [...state, payload],
     deleteCourse: (state, { payload }) =>
-      state.filter((course) => course.id !== payload.course.id),
+      state.filter((course) => course.id !== payload),
     updateCourse: (state, { payload }) =>
-      state.map((course) =>
-        course.id === payload.course.id ? payload : course
-      ),
+      state.map((course) => (course.id === payload.id ? payload : course)),
   },
 });
 

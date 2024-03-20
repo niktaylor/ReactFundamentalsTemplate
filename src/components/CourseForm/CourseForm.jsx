@@ -1,8 +1,3 @@
-// Module 3.
-// * save new course to the store. Use action 'saveCourse' from 'src/store/slices/coursesSlice'
-// * save new author to the store. Use action 'saveAuthor' from 'src/store/slices/authorsSlice'
-// ** TASK DESCRIPTION ** - https://d17btkcdsmqrmh.cloudfront.net/new-react-fundamentals/docs/module-3/home-task/components#add-new-course
-
 // Module 4.
 // * render this component only for ADMIN user
 // * in this module you should separate functionality for this component:
@@ -39,7 +34,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
 import { getAuthorsSelector } from "../../store/selectors";
-import { saveCourse } from "../../store/slices/coursesSlice";
+import { createCourseThunk } from "../../store/thunks/coursesThunk";
 
 const unique = (value, index, array) => array.indexOf(value) === index;
 
@@ -49,10 +44,9 @@ export const CourseForm = () => {
   const navigate = useNavigate();
   const [course, setCourse] = useState({});
   const [errors, setErrors] = useState({});
-  const [nextId, setNextId] = useState(0);
 
   const createCourse = (course) => {
-    dispatch(saveCourse({ course }));
+    dispatch(createCourseThunk(course));
   };
 
   const updateForm = (field) => {
@@ -110,9 +104,7 @@ export const CourseForm = () => {
         ...course,
         authors: course.authors.map(({ id }) => id),
         creationDate: "05/03/2024",
-        id: `${nextId}`,
       });
-      setNextId((id) => id + 1);
       navigate("/courses");
     }
   };
