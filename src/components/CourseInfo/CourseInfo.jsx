@@ -26,26 +26,26 @@ export const CourseInfo = () => {
     ) ?? [];
   return (
     <div className={styles.container} data-testid="courseInfo">
-      <h1>{course.title}</h1>
+      <h1>{course?.title}</h1>
       <div className={styles.courseInfo}>
-        <p className={styles.description}>{course.description}</p>
+        <p className={styles.description}>{course?.description}</p>
         <div>
           <p>
             <b>ID: </b>
-            {course.id}
+            {course?.id}
           </p>
           <p>
             <b>Duration: </b>
-            {getCourseDuration(course.duration)}
+            {getCourseDuration(course?.duration)}
           </p>
           <p>
             <b>Created: </b>
-            {formatCreationDate(course.creationDate)}
+            {formatCreationDate(course?.creationDate)}
           </p>
           <div>
             <b>Authors</b>
             <ul className={styles.authorsList}>
-              {courseAuthors.map((name) => (
+              {courseAuthors?.map((name) => (
                 <li key={name}>{name}</li>
               ))}
             </ul>

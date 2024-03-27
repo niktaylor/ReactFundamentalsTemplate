@@ -1,5 +1,6 @@
 import { TestWrapper, mockedState } from "../../test-helpers";
 import { Courses } from "./Courses";
+import { EmptyCourseList } from "./components";
 import { render, screen } from "@testing-library/react";
 
 describe("Courses", () => {
@@ -13,4 +14,9 @@ describe("Courses", () => {
       mockedState.courses.length
     );
   });
+
+  it("should render EmptyCourseList", () => {
+    render(<EmptyCourseList />, { wrapper: TestWrapper});
+    expect(screen.getByTestId('emptyContainer')).toBeInTheDocument();
+  })
 });

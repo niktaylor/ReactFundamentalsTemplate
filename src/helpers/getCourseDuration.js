@@ -1,4 +1,4 @@
-export const getCourseDuration = (duration) => {
+export const getCourseDuration = (duration = 0) => {
   const hours = Math.floor(duration / 60);
   const minutes = duration % 60;
 
