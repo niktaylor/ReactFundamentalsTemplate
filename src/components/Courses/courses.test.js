@@ -1,6 +1,6 @@
 import { TestWrapper, mockedState } from "../../test-helpers";
 import { Courses } from "./Courses";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 
 describe("Courses", () => {
   it("should render", () => {
