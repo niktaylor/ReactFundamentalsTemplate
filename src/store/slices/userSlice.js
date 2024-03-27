@@ -26,7 +26,7 @@ export const userSlice = createSlice({
       name: "",
       email: "",
       token: null,
-      rule: "",
+      role: "",
     }),
   },
 });

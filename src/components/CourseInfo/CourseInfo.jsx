@@ -10,7 +10,7 @@ import { formatCreationDate, getCourseDuration } from "../../helpers";
 
 import styles from "./styles.module.css";
 import { useParams, Link } from "react-router-dom";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux";
 import { getAuthorsSelector, getCoursesSelector } from "../../store/selectors";
 
 export const CourseInfo = () => {

@@ -12,18 +12,12 @@ import {
   PrivateRoute,
 } from "./components";
 import { getUserTokenSelector, isAuth } from "./store/selectors";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-import { useDispatch } from "react-redux/es/hooks/useDispatch";
+import { useSelector, useDispatch } from "react-redux";
 import { getAuthorsThunk } from "./store/thunks/authorsThunk";
 import { getCoursesThunk } from "./store/thunks/coursesThunk";
 import { getUserThunk } from "./store/thunks/userThunk";
 
-// Module 4:
-// * rewrite old GET requests /courses/all with 'getCoursesThunk' from 'src/store/thunks/coursesThunk.js' using getCourses service from 'src/services.js'.
-// * rewrite old GET requests /authors/all with 'getAuthorsThunk' from 'src/store/thunks/authorsThunk.js' using getAuthors service from 'src/services.js'.
-// * wrap 'CourseForm' in the 'PrivateRoute' component
-
-function App() {
+export function App() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(isAuth);
 

@@ -31,8 +31,7 @@ import { Input, Button } from "../../common";
 import { getCourseDuration } from "../../helpers/getCourseDuration";
 import { AuthorItem, CreateAuthor } from "./components";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-import { useDispatch } from "react-redux/es/hooks/useDispatch";
+import { useSelector, useDispatch } from "react-redux";
 import { getAuthorsSelector } from "../../store/selectors";
 import { createCourseThunk } from "../../store/thunks/coursesThunk";
 

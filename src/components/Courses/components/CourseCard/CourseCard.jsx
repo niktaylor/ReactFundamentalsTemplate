@@ -21,8 +21,7 @@ import editIcon from "../../../../assets/editButtonIcon.svg";
 
 import styles from "./styles.module.css";
 import { Button } from "../../../../common";
-import { useDispatch } from "react-redux/es/hooks/useDispatch";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { isAdminSelector } from "../../../../store/selectors";
 import { deleteCourseThunk } from "../../../../store/thunks/coursesThunk";
 import { useNavigate } from "react-router-dom";

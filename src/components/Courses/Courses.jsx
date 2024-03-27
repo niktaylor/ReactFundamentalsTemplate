@@ -4,7 +4,7 @@ import styles from "./styles.module.css";
 import { CourseCard, EmptyCourseList } from "./components";
 import { Button } from "../../common";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux/es/hooks/useSelector";
+import { useSelector } from "react-redux";
 import { getAuthorsSelector, getCoursesSelector } from "../../store/selectors";
 
 // Module 2:

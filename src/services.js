@@ -65,7 +65,7 @@ export const updateCourseService = async (data, token) => {
 };
 
 export const logout = async () => {
-  return await fetch(`${root}/`, {
+  return await fetch(`${root}/logout`, {
     method: "DELETE",
     headers: getHeaders(),
   });

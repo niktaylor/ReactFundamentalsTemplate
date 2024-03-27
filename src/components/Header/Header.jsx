@@ -5,14 +5,9 @@ import styles from "./styles.module.css";
 import { Logo } from "./components";
 import { Button } from "../../common";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux/es/hooks/useSelector";
-import { useDispatch } from "react-redux/es/hooks/useDispatch";
+import { useSelector, useDispatch } from "react-redux";
 import { getUserNameSelector } from "../../store/selectors";
 import { logoutThunk } from "../../store/thunks/userThunk";
-
-// Module 5:
-// *proposed cases for unit tests:
-//   ** Header should have logo and user's name.
 
 export const Header = () => {
   const dispatch = useDispatch();

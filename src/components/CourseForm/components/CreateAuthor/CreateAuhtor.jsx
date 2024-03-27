@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./styles.module.css";
 import { Button, Input } from "../../../../common";
-import { useDispatch } from "react-redux/es/hooks/useDispatch";
+import { useDispatch } from "react-redux";
 import { createAuthorThunk } from "../../../../store/thunks/authorsThunk";
 
 export const CreateAuthor = () => {
