@@ -16,7 +16,7 @@ describe("Courses", () => {
   });
 
   it("should render EmptyCourseList", () => {
-    render(<EmptyCourseList />, { wrapper: TestWrapper});
-    expect(screen.getByTestId('emptyContainer')).toBeInTheDocument();
-  })
+    render(<EmptyCourseList />, { wrapper: TestWrapper });
+    expect(screen.getByTestId("emptyContainer")).toBeInTheDocument();
+  });
 });
